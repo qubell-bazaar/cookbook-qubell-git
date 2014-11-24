@@ -1,27 +1,15 @@
 include_recipe 'git'
 
-if ( node['qubell-git']['app_root'].start_with?('~') )
-  node.set['qubell-git']['app_root'] = node['qubell-git']['app_root'].gsub('~', ENV['HOME'])
+if ( node['qubell-git']['dir'].start_with?('~') )
+  node.set['qubell-git']['dir'] = node['qubell-git']['dir'].gsub('~', ENV['HOME'])
 end
 
-directory node['qubell-git']['app_root'] do
+directory node['qubell-git']['dir'] do
   action :create
 end
 
-git "#{node['qubell-git']['app_root']}" do
-  repository "#{node['qubell-git']['repo_url']}"
-  reference "#{node['qubell-git']['ref']}"
+git "#{node['qubell-git']['dir']}" do
+  repository "#{node['qubell-git']['repo']}"
+  reference "#{node['qubell-git']['branch']}"
   action :sync 
 end
-  
-
-case node["platform_family"]
-  when "rhel"
-    service "iptables" do
-      action :stop
-    end
-  when "debian"
-    service "ufw" do
-      action :stop
-    end
-  end

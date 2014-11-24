@@ -28,9 +28,8 @@ suites:
     run_list:
       - recipe[minitest-handler]
       - recipe[qubell-nodejs_test::default]
-    attributes: {"qubel-nodejs":
-                  {"app_root": "~/app"
-                  }
+    attributes: {"qubel-git":
+                  {"dir": "~/app"}
                 }
 
 
